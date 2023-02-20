@@ -1,0 +1,31 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Container startet</title>
+</head>
+
+<body>
+    <h1>Container wird gestartet</h1>
+    <script>
+        const target = 'http://{{HOST}}/'
+        const seconds = 1000;
+        let checkInterval;
+        const checkTarget = () => {
+            fetch(target)
+                .then(response => {
+                    if (response.status !== 502) {
+                        window.location.href = target;
+                    }
+                    document.querySelector('h1').innerText += '.';
+                })
+        }
+
+        setTimeout(checkTarget, 0.1 * seconds);
+        checkInterval = setInterval(checkTarget, 1 * seconds);
+    </script>
+</body>
+
+</html>
