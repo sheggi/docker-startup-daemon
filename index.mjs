@@ -1,16 +1,24 @@
+import dotenv from 'dotenv'
+
 import { spawnSync } from 'child_process';
 import { readFileSync, statSync } from 'fs';
 import http from 'http'
 
+dotenv.config()
+
 const portsServer = listenContainerPorts(3001);
 listenStatuspage(portsServer);
+
+const projectsPath = process.env.PROJECTS_PATH || '/Users/sheggi/tools/'
+
+console.info(`PROJECTS_PATH=${projectsPath}`)
 
 function listenContainerPorts(port) {
   let listenInterval = null;
 
   const portsServer = http.createServer(function (req, res) {
-    const project = req.headers.host.split('.')[0];
-    const cwd = '/Users/sheggi/tools/' + project;
+    const project = process.env.PROJECT || req.headers.host.split('.')[0];
+    const cwd = projectsPath + project;
 
     console.log(`${port}: requested ${project} at ${cwd}`)
 
